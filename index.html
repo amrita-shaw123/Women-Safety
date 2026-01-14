@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SafeGuard – Women Safety Alert</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="app">
+
+    <!-- HEADER -->
+    <header class="header">
+        <div class="logo">SafeGuard</div>
+        <div class="subtitle">Women Safety Alert System</div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="main">
+
+        <!-- SOS SECTION -->
+        <section class="sos-section">
+            <button id="sosBtn">SOS</button>
+            <p id="status">Emergency Assistance</p>
+        </section>
+
+        <!-- INFO GRID -->
+        <section class="info-grid">
+
+            <div class="card">
+                <h3>📍 Current Location</h3>
+                <p id="location">Location not available</p>
+                <a id="mapLink" target="_blank"></a>
+            </div>
+
+            <div class="card">
+                <h3>🛡 Safety Tip</h3>
+                <p id="tip">Stay aware of your surroundings.</p>
+            </div>
+
+            <!-- DESKTOP ONLY -->
+            <div class="card desktop-only">
+                <h3>📞 Emergency Contacts</h3>
+                <input id="contactInput" type="text" placeholder="Enter phone number">
+                <button class="secondary-btn" onclick="addContact()">Add Contact</button>
+                <ul id="contactList"></ul>
+            </div>
+
+            <div class="card desktop-only">
+                <h3>📊 SOS History</h3>
+                <ul id="history"></ul>
+            </div>
+
+        </section>
+
+        <!-- MOBILE QUICK ACTION -->
+        <section class="mobile-only">
+            <button class="secondary-btn full" onclick="fakeCall()">📞 Fake Call</button>
+        </section>
+
+    </main>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
