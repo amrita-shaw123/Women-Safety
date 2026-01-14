@@ -167,3 +167,88 @@ ul {
         margin-top: 20px;
     }
 }
+/* MOBILE CONTACT PANEL */
+.mobile-panel {
+    position: fixed;
+    bottom: -100%;
+    left: 0;
+    width: 100%;
+    background: #FFFFFF;
+    border-radius: 20px 20px 0 0;
+    padding: 20px;
+    box-shadow: 0 -10px 30px rgba(0,0,0,0.2);
+    transition: bottom 0.3s ease;
+    z-index: 999;
+}
+
+.mobile-panel.show {
+    bottom: 0;
+}
+
+.close-btn {
+    margin-top: 15px;
+    width: 100%;
+    padding: 10px;
+    background: #CBD5E1;
+    border: none;
+    border-radius: 8px;
+}
+/* FAKE CALL UI */
+.fake-call {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(to bottom, #0F172A, #020617);
+    color: white;
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 60px 30px;
+    z-index: 9999;
+}
+
+.fake-call.show {
+    display: flex;
+}
+
+.caller-info {
+    text-align: center;
+}
+
+.caller-info img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    margin-bottom: 20px;
+}
+
+.caller-info h2 {
+    font-size: 28px;
+    font-weight: 600;
+}
+
+.caller-info p {
+    font-size: 16px;
+    opacity: 0.8;
+}
+
+.call-actions {
+    display: flex;
+    justify-content: space-between;
+}
+
+.call-actions button {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: none;
+    font-size: 16px;
+    color: white;
+}
+
+.reject {
+    background: #DC2626;
+}
+
+.accept {
+    background: #16A34A;
+}
