@@ -1,120 +1,254 @@
-const sosBtn = document.getElementById("sosBtn");
-const statusText = document.getElementById("status");
-const locationText = document.getElementById("location");
-const mapLink = document.getElementById("mapLink");
-const tipText = document.getElementById("tip");
-
-const isMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
-let holdTimer;
-let tapCount = 0;
-let tapTimer;
-
-/* ---------- SAFETY TIPS ---------- */
-const tips = [
-    "Stay aware of your surroundings.",
-    "Share live location with trusted contacts.",
-    "Avoid isolated areas at night.",
-    "Keep emergency numbers accessible."
-];
-tipText.innerText = tips[Math.floor(Math.random() * tips.length)];
-
-/* ---------- PRIMARY SOS ---------- */
-if (isMobile) {
-    statusText.innerText = "Hold SOS for 3 seconds";
-    sosBtn.addEventListener("touchstart", startHold);
-    sosBtn.addEventListener("touchend", cancelHold);
-} else {
-    statusText.innerText = "Click SOS to send alert";
-    sosBtn.addEventListener("click", triggerSOS);
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-function startHold() {
-    statusText.innerText = "Activating...";
-    holdTimer = setTimeout(triggerSOS, 3000);
+/* BASE */
+body {
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    background-color: #F8FAFC;
+    color: #1F2937;
 }
 
-function cancelHold() {
-    clearTimeout(holdTimer);
-    statusText.innerText = "Hold SOS for 3 seconds";
+#app {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
-/* ---------- SILENT SOS ---------- */
-document.body.addEventListener("click", silentTrigger);
-document.addEventListener("keydown", e => {
-    if (e.key.toLowerCase() === "s") silentTrigger();
-});
+/* HEADER */
+.header {
+    background: #FFFFFF;
+    border-bottom: 1px solid #E5E7EB;
+    padding: 20px 32px;
+}
 
-function silentTrigger() {
-    tapCount++;
-    clearTimeout(tapTimer);
-    tapTimer = setTimeout(() => tapCount = 0, 800);
+.logo {
+    font-size: 28px;
+    font-weight: 700;
+    color: #C1121F;
+}
 
-    if (tapCount === 3) {
-        triggerSOS();
-        tapCount = 0;
+.subtitle {
+    font-size: 14px;
+    color: #64748B;
+}
+
+/* MAIN */
+.main {
+    flex: 1;
+    padding: 32px;
+}
+
+/* SOS SECTION */
+.sos-section {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+#sosBtn {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background: #C1121F;
+    color: white;
+    font-size: 40px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 15px 40px rgba(193, 18, 31, 0.35);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#sosBtn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 20px 50px rgba(193, 18, 31, 0.45);
+}
+
+#status {
+    margin-top: 14px;
+    font-size: 14px;
+    color: #64748B;
+}
+
+/* GRID */
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+}
+
+/* CARD */
+.card {
+    background: #FFFFFF;
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.card h3 {
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.card p {
+    font-size: 14px;
+    color: #475569;
+}
+
+.card a {
+    display: inline-block;
+    margin-top: 8px;
+    font-size: 14px;
+    color: #2563EB;
+    text-decoration: none;
+}
+
+/* INPUTS & BUTTONS */
+input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 8px;
+    border: 1px solid #CBD5E1;
+}
+
+.secondary-btn {
+    margin-top: 10px;
+    padding: 10px;
+    background: #1F2937;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.secondary-btn.full {
+    width: 100%;
+}
+
+ul {
+    margin-top: 10px;
+    padding-left: 18px;
+    font-size: 14px;
+    color: #475569;
+}
+
+/* VISIBILITY */
+.desktop-only {
+    display: block;
+}
+
+.mobile-only {
+    display: none;
+}
+
+/* MOBILE VIEW */
+@media (max-width: 768px) {
+    .main {
+        padding: 20px;
+    }
+
+    #sosBtn {
+        width: 220px;
+        height: 220px;
+        font-size: 44px;
+    }
+
+    .desktop-only {
+        display: none;
+    }
+
+    .mobile-only {
+        display: block;
+        margin-top: 20px;
     }
 }
-
-/* ---------- SHAKE DETECTION (MOBILE) ---------- */
-let lastX = 0;
-if (isMobile && window.DeviceMotionEvent) {
-    window.addEventListener("devicemotion", e => {
-        const x = e.accelerationIncludingGravity.x;
-        if (Math.abs(x - lastX) > 15) triggerSOS();
-        lastX = x;
-    });
+/* MOBILE CONTACT PANEL */
+.mobile-panel {
+    position: fixed;
+    bottom: -100%;
+    left: 0;
+    width: 100%;
+    background: #FFFFFF;
+    border-radius: 20px 20px 0 0;
+    padding: 20px;
+    box-shadow: 0 -10px 30px rgba(0,0,0,0.2);
+    transition: bottom 0.3s ease;
+    z-index: 999;
 }
 
-/* ---------- SOS CORE ---------- */
-function triggerSOS() {
-    alert("🚨 SOS ACTIVATED");
-    navigator.vibrate && navigator.vibrate([200,100,200]);
-    getLocation();
-    saveHistory();
-    startCheckIn();
+.mobile-panel.show {
+    bottom: 0;
 }
 
-/* ---------- LOCATION ---------- */
-function getLocation() {
-    navigator.geolocation.getCurrentPosition(pos => {
-        const { latitude, longitude } = pos.coords;
-        locationText.innerText = `${latitude}, ${longitude}`;
-        mapLink.href = `https://maps.google.com/?q=${latitude},${longitude}`;
-        mapLink.innerText = "View on Map";
-    });
+.close-btn {
+    margin-top: 15px;
+    width: 100%;
+    padding: 10px;
+    background: #CBD5E1;
+    border: none;
+    border-radius: 8px;
+}
+/* FAKE CALL UI */
+.fake-call {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(to bottom, #0F172A, #020617);
+    color: white;
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 60px 30px;
+    z-index: 9999;
 }
 
-/* ---------- AUTO CHECK-IN ---------- */
-function startCheckIn() {
-    setTimeout(() => {
-        if (!confirm("Are you safe?")) triggerSOS();
-    }, 60000);
+.fake-call.show {
+    display: flex;
 }
 
-/* ---------- FAKE CALL ---------- */
-function fakeCall() {
-    navigator.vibrate && navigator.vibrate([300,100,300]);
-    alert("📞 Incoming call from MOM");
+.caller-info {
+    text-align: center;
 }
 
-/* ---------- STORAGE ---------- */
-function saveHistory() {
-    const history = JSON.parse(localStorage.getItem("history")) || [];
-    history.push("SOS at " + new Date().toLocaleString());
-    localStorage.setItem("history", JSON.stringify(history));
-    loadHistory();
+.caller-info img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    margin-bottom: 20px;
 }
 
-function loadHistory() {
-    const list = document.getElementById("history");
-    if (!list) return;
-    list.innerHTML = "";
-    const history = JSON.parse(localStorage.getItem("history")) || [];
-    history.forEach(h => {
-        const li = document.createElement("li");
-        li.innerText = h;
-        list.appendChild(li);
-    });
+.caller-info h2 {
+    font-size: 28px;
+    font-weight: 600;
 }
 
-loadHistory();
+.caller-info p {
+    font-size: 16px;
+    opacity: 0.8;
+}
+
+.call-actions {
+    display: flex;
+    justify-content: space-between;
+}
+
+.call-actions button {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: none;
+    font-size: 16px;
+    color: white;
+}
+
+.reject {
+    background: #DC2626;
+}
+
+.accept {
+    background: #16A34A;
+}
