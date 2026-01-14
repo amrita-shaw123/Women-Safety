@@ -62,6 +62,36 @@
     </main>
 
 </div>
+<!-- MOBILE CONTACT ACCESS -->
+<section class="mobile-only">
+    <button class="secondary-btn full" onclick="toggleContacts()">
+        📞 Emergency Contacts
+    </button>
+</section>
+
+<!-- MOBILE CONTACT PANEL -->
+<div id="mobileContacts" class="mobile-panel">
+    <h3>📞 Emergency Contacts</h3>
+    <input id="mobileContactInput" placeholder="Enter phone number">
+    <button class="secondary-btn full" onclick="addMobileContact()">Add Contact</button>
+    <ul id="mobileContactList"></ul>
+    <button class="close-btn" onclick="toggleContacts()">Close</button>
+</div>
+<!-- FAKE CALL SCREEN -->
+<div id="fakeCallScreen" class="fake-call">
+    <div class="caller-info">
+        <img src="https://i.imgur.com/7D7I6dI.png" alt="Caller">
+        <h2>Mom</h2>
+        <p>Incoming Call</p>
+    </div>
+
+    <div class="call-actions">
+        <button class="reject" onclick="endFakeCall()">Decline</button>
+        <button class="accept" onclick="acceptFakeCall()">Accept</button>
+    </div>
+</div>
+
+<audio id="ringtone" src="ringtone.mp3" loop></audio>
 
 <script src="script.js"></script>
 </body>
